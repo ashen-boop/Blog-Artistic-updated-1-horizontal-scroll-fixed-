@@ -1,0 +1,1141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <title>NEBULA · CyberSale — Blog</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+  <style>
+    /* ===== RESET + NUCLEAR OVERFLOW KILL ===== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      max-width: 100vw;
+    }
+
+    html {
+      max-width: 100%;
+      overflow-x: clip !important;
+      width: 100%;
+      position: relative;
+    }
+
+    body {
+      max-width: 100%;
+      overflow-x: clip !important;
+      width: 100%;
+      background: #0b0d1a;
+      font-family: 'Space Grotesk', sans-serif;
+      color: #f0f3ff;
+      -webkit-text-size-adjust: 100%;
+      -ms-text-size-adjust: 100%;
+      position: relative;
+      touch-action: pan-y pinch-zoom;
+      -webkit-touch-callout: none;
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+    }
+
+    .page-wrapper {
+      position: relative;
+      width: 100%;
+      max-width: 100vw;
+      overflow-x: clip !important;
+      contain: layout style paint;
+    }
+
+    .landing {
+      position: relative;
+      z-index: 2;
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 2rem 2rem 4rem;
+      width: 100%;
+      max-width: 100vw;
+      overflow-x: clip !important;
+      left: 0;
+    }
+
+    /* BG layers */
+    .bg-glitch {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -2;
+      background: radial-gradient(circle at 20% 30%, #1b1f3b, #0a0c18);
+      overflow: hidden;
+      pointer-events: none;
+      max-width: 100vw;
+    }
+
+    .bg-glitch::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: repeating-linear-gradient(45deg,
+          rgba(255, 0, 255, 0.02) 0px,
+          rgba(0, 255, 255, 0.02) 20px,
+          rgba(255, 255, 0, 0.01) 40px,
+          rgba(255, 0, 255, 0.02) 60px);
+      animation: drift 30s linear infinite;
+      pointer-events: none;
+    }
+
+    @keyframes drift {
+      0% { transform: translate(0, 0) rotate(0deg); }
+      100% { transform: translate(-10%, -10%) rotate(5deg); }
+    }
+
+    .glow-orb {
+      position: fixed;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(0, 255, 200, 0.15), transparent 70%);
+      top: -100px;
+      right: -200px;
+      filter: blur(70px);
+      animation: pulseGlow 8s infinite alternate;
+      pointer-events: none;
+      max-width: 100vw;
+      overflow: hidden;
+    }
+
+    .glow-orb2 {
+      position: fixed;
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(255, 0, 200, 0.12), transparent 70%);
+      bottom: -100px;
+      left: -100px;
+      filter: blur(80px);
+      animation: pulseGlow2 10s infinite alternate;
+      pointer-events: none;
+      max-width: 100vw;
+      overflow: hidden;
+    }
+
+    @keyframes pulseGlow {
+      0% { opacity: 0.4; transform: scale(1) translate(0, 0); }
+      100% { opacity: 0.9; transform: scale(1.2) translate(-30px, 30px); }
+    }
+
+    @keyframes pulseGlow2 {
+      0% { opacity: 0.3; transform: scale(1) translate(0, 0); }
+      100% { opacity: 0.8; transform: scale(1.3) translate(40px, -40px); }
+    }
+
+    .scanlines {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      pointer-events: none;
+      background: repeating-linear-gradient(0deg,
+          rgba(0, 0, 0, 0.03) 0px,
+          rgba(0, 0, 0, 0.03) 2px,
+          transparent 2px,
+          transparent 6px);
+      max-width: 100vw;
+    }
+
+    /* ===== HEADER ===== */
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.5rem 0 2rem;
+      flex-wrap: wrap;
+      border-bottom: 1px solid rgba(0, 255, 255, 0.15);
+      gap: 1rem;
+      width: 100%;
+      max-width: 100%;
+    }
+
+    .logo {
+      font-size: 1.9rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      background: linear-gradient(135deg, #c0f0ff, #a56aff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 0 30px rgba(165, 106, 255, 0.3);
+      white-space: nowrap;
+    }
+
+    .logo i {
+      background: none;
+      -webkit-text-fill-color: #a56aff;
+      margin-right: 6px;
+    }
+
+    .cta-top {
+      background: rgba(255, 255, 255, 0.02);
+      backdrop-filter: blur(8px);
+      padding: 0.7rem 1.8rem;
+      border-radius: 60px;
+      border: 1px solid rgba(0, 255, 200, 0.3);
+      box-shadow: 0 0 30px rgba(0, 255, 200, 0.1);
+      font-weight: 500;
+      transition: 0.25s;
+      cursor: default;
+      font-size: 0.95rem;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .cta-top i {
+      color: #0ff;
+      margin-right: 8px;
+    }
+
+    /* ===== HERO ===== */
+    .hero {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+      margin: 4rem 0 6rem;
+      width: 100%;
+      max-width: 100%;
+    }
+
+    @media (max-width: 900px) {
+      .hero {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+        text-align: center;
+      }
+    }
+
+    .hero-text h1 {
+      font-size: clamp(2.8rem, 8vw, 5rem);
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      word-break: break-word;
+    }
+
+    .hero-text .highlight {
+      background: linear-gradient(135deg, #f0b3ff, #6ee7ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      display: inline-block;
+      position: relative;
+    }
+
+    .hero-text .highlight::after {
+      content: '⚡';
+      -webkit-text-fill-color: initial;
+      margin-left: 8px;
+      font-size: 2.5rem;
+      display: inline-block;
+      animation: flicker 1.8s infinite;
+    }
+
+    @keyframes flicker {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.3; transform: scale(1.2) rotate(10deg); }
+    }
+
+    .hero-text p {
+      font-size: 1.3rem;
+      margin: 1.8rem 0 2.5rem;
+      color: #bac8ff;
+      max-width: 500px;
+      line-height: 1.7;
+    }
+
+    @media (max-width: 900px) {
+      .hero-text p {
+        margin-left: auto;
+        margin-right: auto;
+      }
+    }
+
+    .price-badge {
+      display: inline-block;
+      background: rgba(255, 0, 200, 0.15);
+      backdrop-filter: blur(10px);
+      padding: 0.6rem 2rem;
+      border-radius: 60px;
+      border: 1px solid #ff44cc;
+      font-weight: 600;
+      font-size: 1.4rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 0 40px rgba(255, 0, 200, 0.2);
+      white-space: nowrap;
+    }
+
+    .price-badge span {
+      font-size: 0.9rem;
+      font-weight: 400;
+      color: #b0baff;
+      margin-left: 10px;
+      text-decoration: line-through;
+    }
+
+    .btn-primary {
+      display: inline-block;
+      background: linear-gradient(135deg, #a56aff, #6ee7ff);
+      border: none;
+      padding: 1.2rem 3.5rem;
+      border-radius: 80px;
+      font-weight: 700;
+      font-size: 1.3rem;
+      color: #0b0d1a;
+      transition: 0.3s;
+      box-shadow: 0 0 30px rgba(110, 231, 255, 0.3);
+      cursor: pointer;
+      text-decoration: none;
+      letter-spacing: 0.5px;
+      white-space: nowrap;
+    }
+
+    .btn-primary i {
+      margin-left: 12px;
+      transition: 0.3s;
+    }
+
+    .btn-primary:hover {
+      transform: scale(1.04);
+      box-shadow: 0 0 60px #6ee7ff, 0 0 100px #a56aff;
+    }
+
+    .btn-primary:hover i {
+      transform: translateX(8px);
+    }
+
+    /* ===== CUBE VISUAL ===== */
+    .hero-visual {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      max-width: 100%;
+    }
+
+    .cube-wrapper {
+      width: 300px;
+      height: 300px;
+      perspective: 800px;
+      max-width: 100%;
+    }
+
+    .cube {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      transform-style: preserve-3d;
+      animation: spinCube 18s infinite linear;
+    }
+
+    .cube div {
+      position: absolute;
+      width: 160px;
+      height: 160px;
+      top: 50%;
+      left: 50%;
+      margin-left: -80px;
+      margin-top: -80px;
+      border-radius: 30px;
+      background: rgba(20, 30, 60, 0.3);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 0 60px rgba(0, 255, 200, 0.1);
+    }
+
+    .cube .face1 { transform: rotateY(0deg) translateZ(110px); background: rgba(165, 106, 255, 0.2); border-color: #a56aff; }
+    .cube .face2 { transform: rotateY(90deg) translateZ(110px); background: rgba(0, 255, 200, 0.15); border-color: #0ff; }
+    .cube .face3 { transform: rotateY(180deg) translateZ(110px); background: rgba(255, 50, 200, 0.15); border-color: #ff44cc; }
+    .cube .face4 { transform: rotateY(-90deg) translateZ(110px); background: rgba(255, 200, 50, 0.1); border-color: #ffcc44; }
+    .cube .face5 { transform: rotateX(90deg) translateZ(110px); background: rgba(0, 100, 255, 0.1); border-color: #0066ff; }
+    .cube .face6 { transform: rotateX(-90deg) translateZ(110px); background: rgba(200, 0, 255, 0.1); border-color: #cc44ff; }
+
+    @keyframes spinCube {
+      0% { transform: rotateX(-20deg) rotateY(0deg) rotateZ(10deg); }
+      100% { transform: rotateX(-20deg) rotateY(360deg) rotateZ(10deg); }
+    }
+
+    /* ===== BLOG ARTICLES ===== */
+    .blog-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2.5rem;
+      margin: 4rem 0 5rem;
+      width: 100%;
+      max-width: 100%;
+    }
+
+    .blog-card {
+      background: rgba(10, 14, 30, 0.6);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.03);
+      border-radius: 40px 10px 40px 10px;
+      padding: 2rem 1.8rem;
+      transition: 0.3s;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+      max-width: 100%;
+    }
+
+    .blog-card:hover {
+      transform: translateY(-8px);
+      border-color: rgba(0, 255, 200, 0.2);
+      box-shadow: 0 20px 60px rgba(0, 255, 200, 0.08);
+    }
+
+    .blog-card .meta {
+      font-size: 0.8rem;
+      color: #6ee7ff;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 0.6rem;
+    }
+
+    .blog-card .meta i {
+      margin-right: 6px;
+    }
+
+    .blog-card h3 {
+      font-size: 1.6rem;
+      font-weight: 600;
+      margin-bottom: 0.8rem;
+      color: #f0f3ff;
+    }
+
+    .blog-card p {
+      color: #b0beff;
+      line-height: 1.7;
+      font-size: 1rem;
+    }
+
+    .blog-card .read-more {
+      display: inline-block;
+      margin-top: 1.2rem;
+      color: #6ee7ff;
+      font-weight: 500;
+      text-decoration: none;
+      border-bottom: 1px solid rgba(110, 231, 255, 0.2);
+      transition: 0.3s;
+    }
+
+    .blog-card .read-more i {
+      margin-left: 6px;
+      transition: 0.3s;
+    }
+
+    .blog-card .read-more:hover {
+      border-bottom-color: #6ee7ff;
+    }
+
+    .blog-card .read-more:hover i {
+      transform: translateX(6px);
+    }
+
+    /* ===== FEATURES ===== */
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 2.5rem;
+      margin: 6rem 0 5rem;
+      width: 100%;
+      max-width: 100%;
+    }
+
+    .feature-card {
+      background: rgba(10, 14, 30, 0.5);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.03);
+      padding: 2.2rem 1.5rem;
+      border-radius: 50px 20px 50px 20px;
+      transition: 0.35s cubic-bezier(0.2, 0.9, 0.4, 1);
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+      position: relative;
+      overflow: hidden;
+      max-width: 100%;
+    }
+
+    .feature-card::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: conic-gradient(from 0deg, transparent, rgba(0, 255, 200, 0.03), transparent, rgba(165, 106, 255, 0.03), transparent);
+      animation: rotateBg 12s linear infinite;
+      pointer-events: none;
+    }
+
+    @keyframes rotateBg {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .feature-card:hover {
+      transform: translateY(-12px) scale(1.02);
+      border-color: rgba(0, 255, 200, 0.3);
+      box-shadow: 0 20px 60px rgba(0, 255, 200, 0.15);
+    }
+
+    .feature-card i {
+      font-size: 2.8rem;
+      background: linear-gradient(135deg, #6ee7ff, #a56aff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 1rem;
+      display: inline-block;
+    }
+
+    .feature-card h3 {
+      font-size: 1.7rem;
+      margin-bottom: 0.6rem;
+      font-weight: 600;
+    }
+
+    .feature-card p {
+      color: #b0beff;
+      line-height: 1.6;
+      font-size: 1rem;
+    }
+
+    /* ===== VALUE SECTION ===== */
+    .value-section {
+      margin: 5rem 0 4rem;
+      padding: 3rem 2.5rem;
+      background: rgba(10, 14, 30, 0.6);
+      backdrop-filter: blur(12px);
+      border-radius: 70px 20px 70px 20px;
+      border: 1px solid rgba(0, 255, 200, 0.08);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+      position: relative;
+      transition: 0.3s;
+      max-width: 100%;
+    }
+
+    .value-section:hover {
+      border-color: rgba(165, 106, 255, 0.2);
+      box-shadow: 0 0 80px rgba(110, 231, 255, 0.05);
+    }
+
+    .value-section h2 {
+      font-size: 2.6rem;
+      font-weight: 600;
+      margin-bottom: 1.2rem;
+      background: linear-gradient(135deg, #f0b3ff, #6ee7ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      display: inline-block;
+      word-break: break-word;
+    }
+
+    .value-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2.5rem;
+      margin-top: 2rem;
+      max-width: 100%;
+    }
+
+    @media (max-width: 800px) {
+      .value-grid {
+        grid-template-columns: 1fr;
+        gap: 1.8rem;
+      }
+      .value-section {
+        padding: 2rem 1.5rem;
+        border-radius: 40px 10px 40px 10px;
+      }
+      .value-section h2 {
+        font-size: 2rem;
+      }
+    }
+
+    .value-card {
+      background: rgba(255, 255, 255, 0.02);
+      padding: 1.8rem 1.8rem;
+      border-radius: 40px 10px 40px 10px;
+      border-left: 3px solid #6ee7ff;
+      transition: 0.3s;
+      max-width: 100%;
+    }
+
+    .value-card:hover {
+      background: rgba(0, 255, 200, 0.03);
+      transform: translateX(6px);
+    }
+
+    .value-card h3 {
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: #c8d6ff;
+    }
+
+    .value-card h3 i {
+      color: #6ee7ff;
+      margin-right: 12px;
+      font-size: 1.4rem;
+    }
+
+    .value-card p {
+      color: #b0beff;
+      line-height: 1.7;
+      font-size: 1.05rem;
+    }
+
+    .value-highlight {
+      background: linear-gradient(135deg, rgba(165, 106, 255, 0.1), rgba(0, 255, 200, 0.05));
+      padding: 1rem 2rem;
+      border-radius: 60px;
+      display: inline-block;
+      margin-top: 2rem;
+      border: 1px solid rgba(165, 106, 255, 0.15);
+      font-weight: 500;
+      font-size: 1.1rem;
+      word-break: break-word;
+      max-width: 100%;
+    }
+
+    .value-highlight i {
+      color: #6ee7ff;
+      margin-right: 12px;
+    }
+
+    /* ===== FAQ ===== */
+    .faq-section {
+      margin: 5rem 0 4rem;
+      padding: 3rem 2.5rem;
+      background: rgba(10, 14, 30, 0.5);
+      backdrop-filter: blur(10px);
+      border-radius: 60px 20px 60px 20px;
+      border: 1px solid rgba(0, 255, 200, 0.06);
+      max-width: 100%;
+    }
+
+    .faq-section h2 {
+      font-size: 2.4rem;
+      font-weight: 600;
+      margin-bottom: 2rem;
+      background: linear-gradient(135deg, #f0b3ff, #6ee7ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      display: inline-block;
+    }
+
+    .faq-item {
+      background: rgba(255, 255, 255, 0.02);
+      border-radius: 30px 10px 30px 10px;
+      padding: 1.5rem 2rem;
+      margin-bottom: 1.2rem;
+      border-left: 3px solid #a56aff;
+      transition: 0.3s;
+      cursor: default;
+      max-width: 100%;
+    }
+
+    .faq-item:hover {
+      background: rgba(0, 255, 200, 0.03);
+      border-left-color: #6ee7ff;
+    }
+
+    .faq-item h3 {
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: #d0dbff;
+      margin-bottom: 0.4rem;
+    }
+
+    .faq-item h3 i {
+      color: #6ee7ff;
+      margin-right: 12px;
+      font-size: 1.2rem;
+    }
+
+    .faq-item p {
+      color: #b0beff;
+      line-height: 1.7;
+      font-size: 1.05rem;
+      padding-left: 2rem;
+    }
+
+    @media (max-width: 600px) {
+      .faq-section {
+        padding: 2rem 1.2rem;
+        border-radius: 40px 10px 40px 10px;
+      }
+      .faq-item {
+        padding: 1.2rem 1.2rem;
+      }
+      .faq-item p {
+        padding-left: 0.5rem;
+      }
+      .faq-section h2 {
+        font-size: 1.8rem;
+      }
+    }
+
+    /* ===== GLOSSARY ===== */
+    .glossary-section {
+      margin: 4rem 0 3rem;
+      padding: 2.5rem 2.5rem;
+      background: rgba(10, 14, 30, 0.4);
+      backdrop-filter: blur(8px);
+      border-radius: 50px 10px 50px 10px;
+      border: 1px solid rgba(255, 255, 255, 0.03);
+      max-width: 100%;
+    }
+
+    .glossary-section h2 {
+      font-size: 2.2rem;
+      font-weight: 600;
+      margin-bottom: 1.5rem;
+      background: linear-gradient(135deg, #f0b3ff, #6ee7ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      display: inline-block;
+    }
+
+    .glossary-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+      max-width: 100%;
+    }
+
+    .glossary-term {
+      background: rgba(255, 255, 255, 0.02);
+      padding: 1.2rem 1.5rem;
+      border-radius: 30px 5px 30px 5px;
+      border-left: 2px solid #6ee7ff;
+      max-width: 100%;
+    }
+
+    .glossary-term strong {
+      color: #d0dbff;
+      font-size: 1.1rem;
+      display: block;
+      margin-bottom: 0.2rem;
+    }
+
+    .glossary-term span {
+      color: #b0beff;
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+
+    /* ===== TESTIMONIAL ===== */
+    .testimonial-zone {
+      background: rgba(255, 255, 255, 0.01);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(0, 255, 200, 0.1);
+      border-radius: 80px 20px 80px 20px;
+      padding: 3.5rem 3rem;
+      margin: 5rem 0 3rem;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 2rem;
+      box-shadow: 0 0 80px rgba(0, 0, 0, 0.4);
+      position: relative;
+      max-width: 100%;
+    }
+
+    .testimonial-zone::after {
+      content: '✦';
+      position: absolute;
+      bottom: 10px;
+      right: 30px;
+      font-size: 3rem;
+      color: rgba(0, 255, 200, 0.1);
+    }
+
+    .testimonial-text {
+      max-width: 500px;
+    }
+
+    .testimonial-text i {
+      color: #ffcc44;
+      font-size: 1.8rem;
+      margin-right: 4px;
+    }
+
+    .testimonial-text p {
+      font-size: 1.2rem;
+      font-style: italic;
+      color: #d0dbff;
+      line-height: 1.6;
+    }
+
+    .testimonial-text small {
+      display: block;
+      margin-top: 0.5rem;
+      color: #6ee7ff;
+      letter-spacing: 1px;
+    }
+
+    .btn-secondary {
+      background: transparent;
+      border: 1.5px solid #a56aff;
+      padding: 1rem 2.8rem;
+      border-radius: 60px;
+      font-weight: 600;
+      font-size: 1.1rem;
+      color: #f0f3ff;
+      transition: 0.3s;
+      cursor: pointer;
+      backdrop-filter: blur(4px);
+      box-shadow: 0 0 20px rgba(165, 106, 255, 0.1);
+      white-space: nowrap;
+    }
+
+    .btn-secondary:hover {
+      background: #a56aff;
+      color: #0b0d1a;
+      border-color: #a56aff;
+      box-shadow: 0 0 50px rgba(165, 106, 255, 0.3);
+    }
+
+    /* ===== FOOTER ===== */
+    .footer {
+      margin-top: 5rem;
+      padding-top: 2rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.03);
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+      color: #6a78b0;
+      font-size: 0.9rem;
+      max-width: 100%;
+    }
+
+    .footer i {
+      margin: 0 4px;
+      color: #6ee7ff;
+    }
+
+    /* ===== MOBILE TWEAKS ===== */
+    @media (max-width: 600px) {
+      .landing {
+        padding: 1rem 1rem 3rem;
+      }
+      .hero {
+        margin: 2rem 0 3rem;
+      }
+      .testimonial-zone {
+        flex-direction: column;
+        align-items: flex-start;
+        border-radius: 40px 10px 40px 10px;
+        padding: 2rem 1.5rem;
+      }
+      .btn-secondary {
+        white-space: normal;
+        width: 100%;
+        text-align: center;
+      }
+      .cta-top {
+        white-space: normal;
+        font-size: 0.85rem;
+        padding: 0.5rem 1.2rem;
+      }
+      .btn-primary {
+        white-space: normal;
+        padding: 1rem 2rem;
+        font-size: 1.1rem;
+        width: 100%;
+        text-align: center;
+      }
+      .price-badge {
+        font-size: 1.2rem;
+        padding: 0.4rem 1.2rem;
+        white-space: normal;
+      }
+      .cube-wrapper {
+        width: 220px;
+        height: 220px;
+      }
+      .cube div {
+        width: 110px;
+        height: 110px;
+        margin-left: -55px;
+        margin-top: -55px;
+        border-radius: 20px;
+      }
+      .cube .face1 { transform: rotateY(0deg) translateZ(75px); }
+      .cube .face2 { transform: rotateY(90deg) translateZ(75px); }
+      .cube .face3 { transform: rotateY(180deg) translateZ(75px); }
+      .cube .face4 { transform: rotateY(-90deg) translateZ(75px); }
+      .cube .face5 { transform: rotateX(90deg) translateZ(75px); }
+      .cube .face6 { transform: rotateX(-90deg) translateZ(75px); }
+      .feature-card {
+        padding: 1.8rem 1.2rem;
+      }
+      .value-section h2 {
+        font-size: 1.8rem;
+      }
+      .value-highlight {
+        font-size: 1rem;
+        padding: 0.8rem 1.2rem;
+      }
+      .header {
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+      }
+      .logo {
+        font-size: 1.6rem;
+      }
+      .blog-grid {
+        grid-template-columns: 1fr;
+      }
+      .glossary-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 400px) {
+      .hero-text h1 {
+        font-size: 2.2rem;
+      }
+      .cube-wrapper {
+        width: 180px;
+        height: 180px;
+      }
+      .cube div {
+        width: 90px;
+        height: 90px;
+        margin-left: -45px;
+        margin-top: -45px;
+      }
+      .cube .face1 { transform: rotateY(0deg) translateZ(60px); }
+      .cube .face2 { transform: rotateY(90deg) translateZ(60px); }
+      .cube .face3 { transform: rotateY(180deg) translateZ(60px); }
+      .cube .face4 { transform: rotateY(-90deg) translateZ(60px); }
+      .cube .face5 { transform: rotateX(90deg) translateZ(60px); }
+      .cube .face6 { transform: rotateX(-90deg) translateZ(60px); }
+      .glossary-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    img, svg, video, iframe {
+      max-width: 100%;
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <div class="page-wrapper">
+    <div class="bg-glitch"></div>
+    <div class="glow-orb"></div>
+    <div class="glow-orb2"></div>
+    <div class="scanlines"></div>
+
+    <div class="landing">
+
+      <!-- header -->
+      <header class="header">
+        <div class="logo"><i class="fas fa-bolt"></i> NEBULA·X</div>
+        <div class="cta-top"><i class="fas fa-arrow-right"></i> early access · 72h</div>
+      </header>
+
+      <!-- hero -->
+      <section class="hero">
+        <div class="hero-text">
+          <div class="price-badge">
+            $39 <span>$79</span>
+          </div>
+          <h1>
+            <span class="highlight">Cyber</span> <br />
+            Vision <span style="color:#6ee7ff;">Pro</span>
+          </h1>
+          <p>
+            The world's first neural interface that lets you <strong style="color:#6ee7ff;">see</strong> data, <strong style="color:#a56aff;">feel</strong> connectivity, and <strong style="color:#ff44cc;">experience</strong> digital reality as if it were physical.
+          </p>
+          <a href="#" class="btn-primary">
+            claim now <i class="fas fa-chevron-circle-right"></i>
+          </a>
+        </div>
+        <div class="hero-visual">
+          <div class="cube-wrapper">
+            <div class="cube">
+              <div class="face1"></div>
+              <div class="face2"></div>
+              <div class="face3"></div>
+              <div class="face4"></div>
+              <div class="face5"></div>
+              <div class="face6"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- BLOG ARTICLES — CONNECTED NARRATIVE -->
+      <div style="margin: 2rem 0 0.5rem;">
+        <h2 style="font-size: 2.2rem; font-weight: 600; background: linear-gradient(135deg, #f0b3ff, #6ee7ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; display: inline-block;">
+          <i class="fas fa-pen-fancy" style="-webkit-text-fill-color: initial; color: #6ee7ff; margin-right: 12px;"></i> the neural revolution
+        </h2>
+      </div>
+      <div class="blog-grid">
+        <div class="blog-card">
+          <div class="meta"><i class="far fa-calendar-alt"></i> may 12, 2026 · 6 min read</div>
+          <h3>From Screens to Perception: The Neural Leap</h3>
+          <p>For 50 years, we've looked at screens. NEBULA·X changes that — you don't look at data, you <strong style="color:#6ee7ff;">inhabit</strong> it. We explain how direct neural stimulation bypasses traditional displays to create a 4D cognitive layer.</p>
+          <a href="#" class="read-more">read full article <i class="fas fa-arrow-right"></i></a>
+        </div>
+        <div class="blog-card">
+          <div class="meta"><i class="far fa-calendar-alt"></i> may 8, 2026 · 4 min read</div>
+          <h3>Why 72 Hours? The Science of Urgency</h3>
+          <p>Our 72-hour early access window isn't a marketing trick — it's based on neuroscience. We explore how limited-time offers trigger the brain's <strong style="color:#a56aff;">scarcity response</strong> and why that matters for decision-making.</p>
+          <a href="#" class="read-more">read full article <i class="fas fa-arrow-right"></i></a>
+        </div>
+        <div class="blog-card">
+          <div class="meta"><i class="far fa-calendar-alt"></i> may 3, 2026 · 8 min read</div>
+          <h3>Infinite Sync: The Future of Connectivity</h3>
+          <p>Your devices shouldn't be separate — they should be <strong style="color:#ff44cc;">extensions of your mind</strong>. We break down how NEBULA·X's neural mesh creates seamless cross-device awareness without lag or friction.</p>
+          <a href="#" class="read-more">read full article <i class="fas fa-arrow-right"></i></a>
+        </div>
+      </div>
+
+      <!-- features — CONNECTED TO THE PRODUCT -->
+      <div class="features">
+        <div class="feature-card">
+          <i class="fas fa-eye"></i>
+          <h3>Neural Vision</h3>
+          <p>See data as spatial objects. Charts become 3D, emails become visual flows, and notifications appear as light pulses in your peripheral awareness.</p>
+        </div>
+        <div class="feature-card">
+          <i class="fas fa-bolt"></i>
+          <h3>Quantum Processing</h3>
+          <p>Powered by a dedicated neural chip that processes visual information 10x faster than the human eye, reducing cognitive load and decision fatigue.</p>
+        </div>
+        <div class="feature-card">
+          <i class="fas fa-cloud-moon"></i>
+          <h3>Aura Feedback</h3>
+          <p>Your brain emits subtle electromagnetic fields. NEBULA·X reads these and translates them into a <strong style="color:#6ee7ff;">personalized visual aura</strong> that changes with your mood and focus.</p>
+        </div>
+        <div class="feature-card">
+          <i class="fas fa-infinity"></i>
+          <h3>Infinite Mesh</h3>
+          <p>Connect to any device — phone, laptop, AR glasses, or smart home. Your neural state syncs across everything, creating a unified digital ecosystem.</p>
+        </div>
+      </div>
+
+      <!-- value section — EXPLAINS WHY THIS MATTERS -->
+      <section class="value-section">
+        <h2><i class="fas fa-rocket" style="margin-right: 16px; -webkit-text-fill-color: initial; color: #6ee7ff;"></i> why NEBULA·X matters</h2>
+        <div class="value-grid">
+          <div class="value-card">
+            <h3><i class="fas fa-brain"></i> cognitive augmentation</h3>
+            <p>Human brains evolved for physical reality, not digital noise. NEBULA·X bridges this gap by turning <strong style="color:#6ee7ff;">abstract data into intuitive spatial experiences</strong> — reducing mental strain and increasing comprehension.</p>
+          </div>
+          <div class="value-card">
+            <h3><i class="fas fa-link"></i> natural interaction</h3>
+            <p>No more learning complex interfaces. With neural feedback, you <strong style="color:#6ee7ff;">think</strong> what you want, and the system responds. It's as natural as moving your hand — because it is.</p>
+          </div>
+          <div class="value-card">
+            <h3><i class="fas fa-shield-alt"></i> privacy-first design</h3>
+            <p>All neural data stays <strong style="color:#6ee7ff;">on-device</strong>, encrypted end-to-end. We don't store your thoughts — we just translate them into visual feedback that disappears when you're done.</p>
+          </div>
+          <div class="value-card">
+            <h3><i class="fas fa-arrow-trend-up"></i> measurable results</h3>
+            <p>Early testers report <strong style="color:#6ee7ff;">43% faster information processing</strong> and a 67% reduction in digital fatigue. This isn't just a gadget — it's a productivity breakthrough.</p>
+          </div>
+        </div>
+        <div class="value-highlight">
+          <i class="fas fa-check-circle"></i> NEBULA·X turns your brain into the ultimate interface. No screens. No distractions. Just pure, focused awareness.
+        </div>
+      </section>
+
+      <!-- FAQ — REAL QUESTIONS -->
+      <section class="faq-section">
+        <h2><i class="fas fa-question-circle" style="margin-right: 14px; -webkit-text-fill-color: initial; color: #6ee7ff;"></i> frequently asked questions</h2>
+        <div class="faq-item">
+          <h3><i class="fas fa-microchip"></i> How does NEBULA·X work?</h3>
+          <p>NEBULA·X uses a lightweight, non-invasive neural headband that reads your brain's electromagnetic signals. It translates these into visual overlays that appear in your mind's eye — no implants, no surgery, just pure <strong style="color:#6ee7ff;">cognitive enhancement</strong>.</p>
+        </div>
+        <div class="faq-item">
+          <h3><i class="fas fa-clock"></i> Why only 72 hours for early access?</h3>
+          <p>We're limiting the initial launch to <strong style="color:#6ee7ff;">1,000 units</strong> to ensure we can provide personalized onboarding and support. The 72-hour window creates focus for our team and urgency for early adopters who want to shape the future of neural tech.</p>
+        </div>
+        <div class="faq-item">
+          <h3><i class="fas fa-shield-alt"></i> Is neural data safe?</h3>
+          <p>Yes. All data is <strong style="color:#6ee7ff;">processed locally on your device</strong> and never uploaded to the cloud. We use military-grade encryption for any anonymized diagnostic data you choose to share. Your thoughts stay yours.</p>
+        </div>
+        <div class="faq-item">
+          <h3><i class="fas fa-wallet"></i> What's the return policy?</h3>
+          <p>We offer a <strong style="color:#6ee7ff;">30-day money-back guarantee</strong> — no questions asked. If NEBULA·X doesn't transform your digital experience, we'll refund every penny. We're that confident.</p>
+        </div>
+      </section>
+
+      <!-- GLOSSARY — TERMS THAT ACTUALLY MEAN SOMETHING -->
+      <section class="glossary-section">
+        <h2><i class="fas fa-book-open" style="margin-right: 14px; -webkit-text-fill-color: initial; color: #6ee7ff;"></i> neural tech glossary</h2>
+        <div class="glossary-grid">
+          <div class="glossary-term">
+            <strong>Neural Interface</strong>
+            <span>A device that reads and translates brain signals into digital feedback.</span>
+          </div>
+          <div class="glossary-term">
+            <strong>Quantum Glow</strong>
+            <span>Real-time visualization of neural activity, showing your cognitive state as color.</span>
+          </div>
+          <div class="glossary-term">
+            <strong>Infinite Mesh</strong>
+            <span>Cross-device neural synchronization that maintains your mental state across gadgets.</span>
+          </div>
+          <div class="glossary-term">
+            <strong>4D Cognition</strong>
+            <span>Perception that adds spatial and temporal layering to digital information.</span>
+          </div>
+          <div class="glossary-term">
+            <strong>Neural Aura</strong>
+            <span>Personalized visual field that adapts to your focus, energy, and emotional state.</span>
+          </div>
+          <div class="glossary-term">
+            <strong>Cognitive Mesh</strong>
+            <span>The interconnected network of devices that respond to your neural signals.</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- testimonial + cta -->
+      <div class="testimonial-zone">
+        <div class="testimonial-text">
+          <i class="fas fa-quote-left"></i>
+          <p>"I thought I'd need to learn a new language to use this. But NEBULA·X just <strong style="color:#6ee7ff;">feels</strong> natural — like I've been using it my whole life. It's not a tool; it's an extension of my mind."</p>
+          <small>— Zara K., early beta tester · cognitive scientist</small>
+        </div>
+        <div>
+          <button class="btn-secondary"><i class="fas fa-rocket"></i>  join the waitlist</button>
+        </div>
+      </div>
+
+      <!-- footer -->
+      <footer class="footer">
+        <span>© 2026 NEBULA·X · <i class="fas fa-shield-alt"></i> neural encrypted</span>
+        <span>
+          <i class="fab fa-twitter"></i>
+          <i class="fab fa-discord"></i>
+          <i class="fab fa-github"></i>
+          <i class="fas fa-globe"></i>
+        </span>
+      </footer>
+
+    </div>
+  </div>
+</body>
+</html>
