@@ -827,6 +827,42 @@
       color: #6ee7ff;
     }
 
+    /* ===== TOAST (claim now response) ===== */
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: calc(2.5rem + 70px); /* moved up 70px */
+      transform: translate(-50%, 20px);
+      z-index: 9999;
+      background: linear-gradient(135deg, #a56aff, #6ee7ff);
+      color: #0b0d1a;
+      font-weight: 600;
+      font-size: 1rem;
+      padding: 0.9rem 1.8rem;
+      border-radius: 60px;
+      box-shadow: 0 0 40px rgba(110, 231, 255, 0.4), 0 12px 40px rgba(0, 0, 0, 0.5);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
+      max-width: calc(100vw - 2rem);
+      text-align: center;
+      white-space: nowrap;
+    }
+
+    .toast.show {
+      opacity: 1;
+      visibility: visible;
+      transform: translate(-50%, 0);
+    }
+
+    .toast i {
+      color: #0b0d1a;
+    }
+
     /* ===== MOBILE TWEAKS ===== */
     @media (max-width: 600px) {
       .landing {
@@ -904,6 +940,16 @@
       .glossary-grid {
         grid-template-columns: 1fr 1fr;
       }
+      /* extra empty background below the footer on mobile only */
+      body {
+        padding-bottom: 10rem;
+      }
+      .toast {
+        font-size: 0.9rem;
+        padding: 0.8rem 1.4rem;
+        white-space: normal;
+        bottom: calc(2.5rem + 70px); /* moved up 70px on mobile too */
+      }
     }
 
     @media (max-width: 400px) {
@@ -965,7 +1011,7 @@
           <p>
             The world's first neural interface that lets you <strong style="color:#6ee7ff;">see</strong> data, <strong style="color:#a56aff;">feel</strong> connectivity, and <strong style="color:#ff44cc;">experience</strong> digital reality as if it were physical.
           </p>
-          <a href="#" class="btn-primary">
+          <a href="#" class="btn-primary" id="claimBtn">
             claim now <i class="fas fa-chevron-circle-right"></i>
           </a>
         </div>
@@ -1137,5 +1183,32 @@
 
     </div>
   </div>
+
+  <!-- claim now toast -->
+  <div class="toast" id="claimToast" role="status" aria-live="polite">
+    <i class="fas fa-bolt"></i>
+    <span>You're in! Check your inbox for early access ⚡</span>
+  </div>
+
+  <script>
+    (function () {
+      const claimBtn = document.getElementById('claimBtn');
+      const toast = document.getElementById('claimToast');
+      let hideTimer = null;
+
+      claimBtn.addEventListener('click', function (e) {
+        e.preventDefault();
+        // reset then show
+        toast.classList.remove('show');
+        void toast.offsetWidth; // force reflow so re-clicking replays animation
+        toast.classList.add('show');
+
+        if (hideTimer) clearTimeout(hideTimer);
+        hideTimer = setTimeout(function () {
+          toast.classList.remove('show');
+        }, 2000);
+      });
+    })();
+  </script>
 </body>
 </html>
