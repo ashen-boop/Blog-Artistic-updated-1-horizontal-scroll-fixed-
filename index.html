@@ -827,14 +827,18 @@
       color: #6ee7ff;
     }
 
-    /* ===== TOAST (claim now response) ===== */
+    /* ===== TOAST (claim now response) =====
+       - transparent glassy base
+       - NO glow by default
+       - glow only while pressing (or brief pulse on tap)
+    */
     .toast {
       position: fixed;
       left: 50%;
-      bottom: calc(2.5rem + 130px); /* moved up 70px + another 60px */
+      bottom: calc(2.5rem + 130px);
       transform: translate(-50%, 20px);
       z-index: 9999;
-      background: rgba(20, 30, 60, 0.35);       /* transparent glassy bg */
+      background: rgba(20, 30, 60, 0.35);
       backdrop-filter: blur(14px) saturate(180%);
       -webkit-backdrop-filter: blur(14px) saturate(180%);
       color: #f0f3ff;
@@ -842,15 +846,20 @@
       font-size: 1rem;
       padding: 0.9rem 1.8rem;
       border-radius: 60px;
-      border: 1px solid rgba(110, 231, 255, 0.35);
-      box-shadow: 0 0 40px rgba(110, 231, 255, 0.15), 0 12px 40px rgba(0, 0, 0, 0.35);
+      border: 1px solid rgba(110, 231, 255, 0.25);
+      /* base: subtle shadow, NO neon glow */
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
       display: flex;
       align-items: center;
       gap: 10px;
       opacity: 0;
       visibility: hidden;
       pointer-events: none;
-      transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
+      transition: opacity 0.3s ease,
+                  transform 0.3s ease,
+                  visibility 0.3s,
+                  box-shadow 0.25s ease,
+                  border-color 0.25s ease;
       max-width: calc(100vw - 2rem);
       text-align: center;
       white-space: nowrap;
@@ -862,8 +871,25 @@
       transform: translate(-50%, 0);
     }
 
+    /* glow only when pressing / tapped */
+    .toast.glow {
+      box-shadow:
+        0 0 0 1px rgba(110, 231, 255, 0.55),
+        0 0 30px rgba(110, 231, 255, 0.55),
+        0 0 70px rgba(165, 106, 255, 0.45),
+        0 0 120px rgba(110, 231, 255, 0.25),
+        0 12px 40px rgba(0, 0, 0, 0.35);
+      border-color: rgba(110, 231, 255, 0.75);
+    }
+
     .toast i {
       color: #6ee7ff;
+      transition: color 0.25s ease, text-shadow 0.25s ease;
+    }
+
+    .toast.glow i {
+      color: #ffffff;
+      text-shadow: 0 0 10px #6ee7ff, 0 0 20px #a56aff;
     }
 
     /* ===== MOBILE TWEAKS ===== */
@@ -951,7 +977,7 @@
         font-size: 0.9rem;
         padding: 0.8rem 1.4rem;
         white-space: normal;
-        bottom: calc(2.5rem + 130px); /* same lift on mobile */
+        bottom: calc(2.5rem + 130px);
       }
     }
 
@@ -1198,18 +1224,73 @@
       const claimBtn = document.getElementById('claimBtn');
       const toast = document.getElementById('claimToast');
       let hideTimer = null;
+      let pulseTimer = null;
 
-      claimBtn.addEventListener('click', function (e) {
-        e.preventDefault();
-        // reset then show
+      // Clear glow after a short pulse (for quick taps)
+      function scheduleGlowOff(ms) {
+        if (pulseTimer) clearTimeout(pulseTimer);
+        pulseTimer = setTimeout(function () {
+          toast.classList.remove('glow');
+        }, ms);
+      }
+
+      // Press / touch starts the glow
+      function startGlow() {
+        toast.classList.add('glow');
+        scheduleGlowOff(400); // brief pulse even on quick tap
+      }
+
+      // Release / leave stops the glow
+      function stopGlow() {
+        if (pulseTimer) {
+          clearTimeout(pulseTimer);
+          pulseTimer = null;
+        }
+        toast.classList.remove('glow');
+      }
+
+      function showToast() {
         toast.classList.remove('show');
-        void toast.offsetWidth; // force reflow so re-clicking replays animation
+        void toast.offsetWidth;
         toast.classList.add('show');
+        // glow pulse on the show itself, then fades
+        startGlow();
 
         if (hideTimer) clearTimeout(hideTimer);
         hideTimer = setTimeout(function () {
+          // hide + make sure glow is gone
+          stopGlow();
           toast.classList.remove('show');
         }, 2000);
+      }
+
+      // click/tap on the claim button
+      claimBtn.addEventListener('click', function (e) {
+        e.preventDefault();
+        showToast();
+      });
+
+      // pressing on the toast itself glows; releasing removes glow
+      toast.addEventListener('pointerdown', function (e) {
+        e.stopPropagation();
+        startGlow();
+      });
+      toast.addEventListener('pointerup', function (e) {
+        e.stopPropagation();
+        scheduleGlowOff(250);
+      });
+      toast.addEventListener('pointercancel', stopGlow);
+      toast.addEventListener('pointerleave', stopGlow);
+      toast.addEventListener('mouseleave', stopGlow);
+      toast.addEventListener('touchend', function () {
+        scheduleGlowOff(250);
+      });
+      toast.addEventListener('touchcancel', stopGlow);
+
+      // Also stop glow on release anywhere on the page
+      window.addEventListener('pointerup', function () {
+        // only if the toast is not being pressed
+        scheduleGlowOff(250);
       });
     })();
   </script>
